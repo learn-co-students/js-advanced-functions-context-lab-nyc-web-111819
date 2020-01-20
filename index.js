@@ -1,4 +1,65 @@
-/* Your Code Here */
+function createEmployeeRecord(array) {
+    let employee = {
+        firstName: array[0],
+        familyName: array[1],
+        title: array[2],
+        payPerHour: array[3],
+        timeInEvents: [],
+        timeOutEvents: []
+    }
+    return employee
+}
+
+function createEmployeeRecords(array) {
+    let employeesArray = []
+    array.forEach(array => {
+        employeesArray.push(createEmployeeRecord(array)) 
+    });
+    return employeesArray
+}
+
+function createTimeInEvent(dateStamp){
+
+    let splitDateStamp = dateStamp.split(" ")
+
+    let timeInEvent = {
+        type: "TimeIn",
+        hour: parseInt(splitDateStamp[1]),
+        date: splitDateStamp[0]
+    }
+    this.timeInEvents.push(timeInEvent)
+    return this
+}
+
+function createTimeOutEvent(dateStamp) {
+
+    let splitDateStamp = dateStamp.split(" ")
+
+    let timeOutEvent = {
+        type: "TimeOut",
+        hour: parseInt(splitDateStamp[1]),
+        date: splitDateStamp[0]
+    }
+    this.timeOutEvents.push(timeOutEvent)
+    return this
+}
+
+function hoursWorkedOnDate(date) {
+   
+    let timeOut = this.timeOutEvents.find(element => element.date === date)
+    let timeIn = this.timeInEvents.find(element => element.date === date)
+    
+    let hoursWorked = (timeOut.hour - timeIn.hour)/100
+
+    return hoursWorked
+}
+
+function wagesEarnedOnDate(date) {
+    let payOwed = parseInt(hoursWorkedOnDate.call(this, date) * this.payPerHour)
+    return payOwed
+}
+
+
 
 /*
  We're giving you this function. Take a look at it, you might see some usage
@@ -19,4 +80,19 @@ let allWagesFor = function () {
     }.bind(this), 0) // <== Hm, why did we need to add bind() there? We'll discuss soon!
 
     return payable
+}
+
+function findEmployeeByFirstName(srcArray, firstName) {
+
+    let soughtEmployee = srcArray.find(element => element.firstName === firstName)
+    return soughtEmployee
+}
+
+
+function calculatePayroll(array) {
+    let allMoneyOwed = array.reduce(function (accumulator, employee) {
+        return accumulator + allWagesFor.call(employee)
+    }, 0)
+
+    return allMoneyOwed
 }
